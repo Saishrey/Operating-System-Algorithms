@@ -37,7 +37,7 @@ queue<Process> readyQueue;
 
 bool compareArrivalTime(Process p1, Process p2) {
     if(p1.arrivalTime == p2.arrivalTime) {
-        return (p1.burstTime < p2.burstTime);
+        return (p1.name < p2.name);
     }
     return (p1.arrivalTime < p2.arrivalTime);
 }
@@ -103,6 +103,11 @@ void displayGanttChart() {
             if(isPreviousProcess) {
                 readyQueue.push(previousProcess);
             }
+        }
+
+        if(readyQueue.empty()) {
+            tempBurstTime++;
+            continue;
         }
 
         Process current = readyQueue.front(); 
