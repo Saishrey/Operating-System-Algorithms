@@ -1,4 +1,5 @@
-// First Fit algo
+// Dynamic Storage Allocation
+// First fit , Best fit, Worst fit
 #include <iostream>
 #include <vector>
 #include <algorithm>
