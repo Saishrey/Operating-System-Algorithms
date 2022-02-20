@@ -94,10 +94,8 @@ void displayGanttChart() {
         if(tempTimeQuantum == 1) {
             for(int j = 0; j < numberOfProcesses; j++) {
                 if(processList.at(j).arrivalTime <= tempBurstTime && processList.at(j).isComplete == false && !processList.at(j).isInReadyQueue) {
-                    if(!isPreviousProcess || previousProcess.name != processList.at(j).name) {
-                        processList.at(j).isInReadyQueue = true;
-                        readyQueue.push(processList.at(j));            
-                    } 
+                    processList.at(j).isInReadyQueue = true;
+                    readyQueue.push(processList.at(j));  
                 }
             }
             if(isPreviousProcess) {
