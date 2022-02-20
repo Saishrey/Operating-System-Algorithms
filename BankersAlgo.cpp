@@ -6,6 +6,23 @@
     Allocation =        2 2 3 2 0 3 1 2 4          0 1 0 2 0 0 3 0 2 2 1 1 0 0 2
     Max =               3 6 8 4 3 3 3 4 4          7 5 3 3 2 2 9 0 2 2 2 2 4 3 3
     available =         7 7 10                     3 3 2
+
+    4
+    3
+    1 0 1 2 1 2 3 0 0 1 0 1
+    2 1 1 5 4 4 3 1 1 1 1 1
+    2 1 1
+    3
+    1 0 1
+
+    5
+    4
+    0 0 1 2 1 0 0 0 1 3 5 4 0 6 3 2 0 0 1 4
+    0 0 1 2 1 7 5 0 2 3 5 6 0 6 5 2 0 6 5 6
+    1 5 2 0
+    2
+    0 4 2 0
+
 */
 #include <iostream>
 #include <vector>
@@ -57,6 +74,52 @@ int main() {
     checkSafeState();
 
     display();
+
+    // Check if request can be granted
+    int requestProcess;
+    cout << endl << "Enter process name for which request is to granted(int value): ";
+    cin >> requestProcess;
+
+    int request[numberOfResources];
+    cout << "Enter the request string: ";
+    for (int i = 0; i < numberOfResources; i++) {
+        cin >> request[i];
+    }
+
+    bool checkRequest = true;
+    for (int i = 0; i < numberOfResources; i++) {
+        if(request[i] > need[requestProcess-1][i] || request[i] > available[0][i]) {
+            checkRequest = false;
+            break;
+        }
+    }
+
+    if(checkRequest) {
+        cout << "Request can be granted." << endl;
+
+        for (int i = 0; i < numberOfResources; i++) {
+            allocation[requestProcess-1][i] += request[i];
+            available[0][i] -= request[i];
+            need[requestProcess-1][i] -= request[i];
+        }
+
+        for (int i = 0; i < numberOfProcesses; i++) {
+            need[i][numberOfResources] = 0;
+        }
+
+        safeSequence.clear();
+        
+        findNeedMatrix();
+
+        checkSafeState();
+
+        display();   
+    }
+    else {
+        cout << "Request CANNOT be granted." << endl;
+    }
+    
+
 
     return 0;
 }
