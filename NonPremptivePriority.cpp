@@ -28,6 +28,9 @@ vector<Process> processList;
 int numberOfProcesses;
 
 bool compareArrivalTime(Process p1, Process p2) {
+    if(p1.arrivalTime == p2.arrivalTime) {
+        return (p1.burstTime < p2.burstTime);
+    }
     return (p1.arrivalTime < p2.arrivalTime);
 }
 
