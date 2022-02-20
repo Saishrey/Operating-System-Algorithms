@@ -81,6 +81,11 @@ void displayGanttChart() {
             }
         }
 
+        if(tempList.size() == 0 && processCount < numberOfProcesses) {
+            tempBurstTime++;
+            continue;
+        }
+
         sort(tempList.begin(), tempList.end(), compareBurstTime);
 
         Process current = tempList.at(0);

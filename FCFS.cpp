@@ -13,6 +13,7 @@ class Process {
         int turnAroundTime;
         int waitingTime;
         int completionTime;
+        bool isComplete = false;
 };
 
 class Gantt {
@@ -67,17 +68,44 @@ int main() {
 
 void displayGanttChart() {
     int tempBurstTime = processList.at(0).arrivalTime;
+    int processCount = 0;
 
-    for(int i = 0; i < numberOfProcesses; i++) {
+    while(true) {
+        vector<Process> tempList;
+        for(int j = 0; j < numberOfProcesses; j++) {
+            if(processList.at(j).arrivalTime <= tempBurstTime && processList.at(j).isComplete == false) {
+                tempList.push_back(processList.at(j));
+            }
+        }
+
+        if(tempList.size() == 0 && processCount < numberOfProcesses) {
+            tempBurstTime++;
+            continue;
+        }
+
+        Process current = tempList.at(0);
+
         Gantt gantt;
-        gantt.name = processList.at(i).name;
+        gantt.name = current.name;
         gantt.left = tempBurstTime;
-        tempBurstTime += processList.at(i).burstTime;
+        tempBurstTime += current.burstTime;
         gantt.right = tempBurstTime;
         ganttChart.push_back(gantt);
 
-        processList.at(i).completionTime = tempBurstTime;
+        for(int i = 0; i < numberOfProcesses; i++) {
+            if(processList.at(i).name == current.name) {
+                processList.at(i).completionTime = tempBurstTime;
+                processList.at(i).isComplete = true;
+                processCount++;
+                break;
+            }
+        }
+
+        if(processCount == numberOfProcesses) {
+            break;
+        }
     }
+    
 
     cout << "Gantt chart: ";
     for(Gantt current : ganttChart) {
