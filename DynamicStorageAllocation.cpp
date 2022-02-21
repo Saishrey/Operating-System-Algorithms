@@ -12,6 +12,7 @@ class Process {
         int size;
         bool isAllocated = false;
         int allocatedBlockNum;
+        int currentRemainingBlockSize;
 };
 
 class Block {
@@ -91,7 +92,7 @@ void display(vector<Process> p, vector<Block> b) {
 
             for (int j = 0; j < numberOfBlocks; j++) {
                 if(b.at(j).blockNum == p.at(i).allocatedBlockNum) {
-                    cout << "\t\t" << b.at(j).totalBlockSize << "\t\t" << b.at(j).remainingBlockSize << endl;
+                    cout << "\t\t" << b.at(j).totalBlockSize << "\t\t" << p.at(i).currentRemainingBlockSize << endl;
                     break;
                 }
             }
@@ -116,6 +117,7 @@ void firstFit() {
             if(processListFF.at(i).size <= blockListFF.at(j).remainingBlockSize) {
                 processListFF.at(i).isAllocated = true;
                 blockListFF.at(j).remainingBlockSize -= processListFF.at(i).size;
+                processListFF.at(i).currentRemainingBlockSize = blockListFF.at(j).remainingBlockSize;
                 processListFF.at(i).allocatedBlockNum = blockListFF.at(j).blockNum;
                 break;
             }
@@ -138,6 +140,7 @@ void bestFit() {
             if(processListBF.at(i).size <= blockListBF.at(j).remainingBlockSize) {
                 processListBF.at(i).isAllocated = true;
                 blockListBF.at(j).remainingBlockSize -= processListBF.at(i).size;
+                processListBF.at(i).currentRemainingBlockSize = blockListBF.at(j).remainingBlockSize;
                 processListBF.at(i).allocatedBlockNum = blockListBF.at(j).blockNum;
                 break;
             }
@@ -160,6 +163,7 @@ void worstFit() {
             if(processListWF.at(i).size <= blockListWF.at(j).remainingBlockSize) {
                 processListWF.at(i).isAllocated = true;
                 blockListWF.at(j).remainingBlockSize -= processListWF.at(i).size;
+                processListWF.at(i).currentRemainingBlockSize = blockListWF.at(j).remainingBlockSize;
                 processListWF.at(i).allocatedBlockNum = blockListWF.at(j).blockNum;
                 break;
             }
